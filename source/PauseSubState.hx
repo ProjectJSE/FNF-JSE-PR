@@ -317,39 +317,36 @@ class PauseSubState extends MusicBeatSubstate
 				}
 			}
 			if (menuItems == menuItemsExit) {
-			switch(daSelected) {
-			case "Exit to Story Menu", "Exit to Freeplay":
-					PlayState.deathCounter = 0;
-					PlayState.seenCutscene = false;
+				switch(daSelected) {
+					case "Exit to Story Menu", "Exit to Freeplay":
+						PlayState.deathCounter = 0;
+						PlayState.seenCutscene = false;
 
-					WeekData.loadTheFirstEnabledMod();
-					if(PlayState.isStoryMode) {
-						FlxG.switchState(StoryMenuState.new);
-					} else if (!PlayState.isStoryMode) {
-						FlxG.switchState(FreeplayState.new);
-					}
-					FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.daMenuMusic));
-					PlayState.changedDifficulty = false;
-					PlayState.chartingMode = false;
-			case "Exit to Main Menu":
-					PlayState.deathCounter = 0;
-					PlayState.seenCutscene = false;
+						WeekData.loadTheFirstEnabledMod();
+						if(PlayState.isStoryMode) {
+							FlxG.switchState(StoryMenuState.new);
+						} else if (!PlayState.isStoryMode) {
+							FlxG.switchState(FreeplayState.new);
+						}
+						FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.daMenuMusic));
+						PlayState.changedDifficulty = false;
+						PlayState.chartingMode = false;
+					case "Exit to Main Menu":
+						PlayState.deathCounter = 0;
+						PlayState.seenCutscene = false;
 
-					WeekData.loadTheFirstEnabledMod();
+						WeekData.loadTheFirstEnabledMod();
 						FlxG.switchState(MainMenuState.new);
-					FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.daMenuMusic));
-					PlayState.changedDifficulty = false;
-					PlayState.chartingMode = false;
-			case "Exit Game":
-					trace ("Exiting game...");
-					openfl.system.System.exit(0);
-			case "Back":
-					menuItems = menuItemsOG;
-					regenMenu();
-			case "Exit to your Mother":
-					trace ("YO MAMA");
-					var aLittleCrashing:FlxSprite = null;
-					aLittleCrashing.destroy();
+						FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.daMenuMusic));
+						PlayState.changedDifficulty = false;
+						PlayState.chartingMode = false;
+					case "Back":
+						menuItems = menuItemsOG;
+						regenMenu();
+					case "Exit to your Mother":
+						trace ("YO MAMA");
+						var aLittleCrashing:FlxSprite = null;
+						aLittleCrashing.destroy();
 				}
 			}
 		}

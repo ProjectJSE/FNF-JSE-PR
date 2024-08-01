@@ -2469,7 +2469,7 @@ class PlayState extends MusicBeatState
 		}
 
 		inCutscene = false;
-		var ret:Dynamic = callOnLuas('onStartCountdown');
+		var ret:Dynamic = callOnLuas('onStartCountdown', null, true);
 
 		if (SONG.song.toLowerCase() == 'anti-cheat-song')
 		{
@@ -3321,7 +3321,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function eventNoteEarlyTrigger(event:EventNote):Float {
-		var returnedValue:Null<Float> = callOnLuas('eventEarlyTrigger', [event.event, event.value1, event.value2, event.strumTime], [], [0]);
+		var returnedValue:Null<Float> = callOnLuas('eventEarlyTrigger', [event.event, event.value1, event.value2, event.strumTime], true, [], [0]);
 		if(returnedValue != null && returnedValue != 0 && returnedValue != LuaUtils.Function_Continue) {
 			return returnedValue;
 		}
@@ -3335,10 +3335,6 @@ class PlayState extends MusicBeatState
 
 	function sortByTime(Obj1:Dynamic, Obj2:Dynamic):Int
 	{
-		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
-	}
-
-	function sortByShit(Obj1:Note, Obj2:Note):Int {
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
 	}
 
@@ -3848,7 +3844,6 @@ class PlayState extends MusicBeatState
 							#end
 							#else
 							throw 'You should RUN, any minute now.'; // thought this'd be cooler
-							// Sys.exit(0);
 							#end
 						});
 				}
@@ -3895,7 +3890,7 @@ class PlayState extends MusicBeatState
 
 		if (controls.PAUSE && startedCountdown && canPause && !heyStopTrying)
 		{
-			final ret:Dynamic = callOnLuas('onPause');
+			final ret:Dynamic = callOnLuas('onPause', null, true);
 			if(ret != LuaUtils.Function_Stop)
 				openPauseMenu();
 		}
@@ -4375,7 +4370,7 @@ class PlayState extends MusicBeatState
 			{
 				restartSong(true);
 			}
-			var ret:Dynamic = callOnLuas('onGameOver');
+			var ret:Dynamic = callOnScripts('onGameOver', null, true);
 			if(ret != LuaUtils.Function_Stop) {
 				FlxG.animationTimeScale = 1;
 				boyfriend.stunned = true;
@@ -5105,7 +5100,7 @@ class PlayState extends MusicBeatState
 			}
 			#end
 
-			var ret:Dynamic = callOnLuas('onEndSong', [], true);
+			var ret:Dynamic = callOnLuas('onEndSong', null, true);
 			if(ret != LuaUtils.Function_Stop && !transitioning) {
 				if (!cpuControlled && !playerIsCheating && ClientPrefs.safeFrames <= 10)
 				{
@@ -7121,7 +7116,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('combo', combo);
 		if (badHit) missRecalcsPerFrame += 1;
 
-		var ret:Dynamic = callOnLuas('onRecalculateRating');
+		var ret:Dynamic = callOnLuas('onRecalculateRating', null, true);
 		if(ret != LuaUtils.Function_Stop)
 		{
 			if(totalPlayed < 1) //Prevent divide by 0

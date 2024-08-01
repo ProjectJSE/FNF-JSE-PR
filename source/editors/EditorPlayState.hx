@@ -331,11 +331,6 @@ class EditorPlayState extends MusicBeatState
 		opponentVocals.play();
 	}
 
-	function sortByShit(Obj1:Note, Obj2:Note):Int
-	{
-		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
-	}
-
 	private function endSong() {
 		Conductor.songPosition = 0;
 		FlxG.sound.music.stop();
