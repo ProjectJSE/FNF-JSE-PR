@@ -2024,7 +2024,7 @@ class PlayState extends MusicBeatState
 					break;
 				}
 			}
-			if(doPush) luaArray.push(new FunkinLua(folder + file));
+			if(doPush) luaArray.push(new FunkinLua(luaFile));
 		}
 		#end
 	}
@@ -7046,7 +7046,7 @@ class PlayState extends MusicBeatState
 			for (script in luaArray)
 				if(script.scriptName == luaToLoad) return false;
 
-			luaArray.push(new FunkinLua(folder + file));
+			luaArray.push(new FunkinLua(luaToLoad));
 			return true;
 		}
 		return false;
