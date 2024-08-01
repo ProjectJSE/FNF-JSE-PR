@@ -92,7 +92,7 @@ class TitleState extends MusicBeatState
 		Mods.getGlobalMods();
 		#end
 		// Just to load a mod on start up if ya got one. For mods that change the menu music and bg
-		WeekData.loadTheFirstEnabledMod();
+		Mods.loadTopMod();
 		MusicBeatState.windowNamePrefix = Assets.getText(Paths.txt("windowTitleBase", "preload"));
 
 		FlxG.game.focusLostFramerate = 60;

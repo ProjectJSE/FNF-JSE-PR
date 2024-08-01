@@ -322,7 +322,7 @@ class PauseSubState extends MusicBeatSubstate
 						PlayState.deathCounter = 0;
 						PlayState.seenCutscene = false;
 
-						WeekData.loadTheFirstEnabledMod();
+						Mods.loadTopMod();
 						if(PlayState.isStoryMode) {
 							FlxG.switchState(StoryMenuState.new);
 						} else if (!PlayState.isStoryMode) {
@@ -335,7 +335,7 @@ class PauseSubState extends MusicBeatSubstate
 						PlayState.deathCounter = 0;
 						PlayState.seenCutscene = false;
 
-						WeekData.loadTheFirstEnabledMod();
+						Mods.loadTopMod();
 						FlxG.switchState(MainMenuState.new);
 						FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.daMenuMusic));
 						PlayState.changedDifficulty = false;

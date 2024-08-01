@@ -92,7 +92,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			PlayState.seenCutscene = false;
 			PlayState.chartingMode = false;
 
-			WeekData.loadTheFirstEnabledMod();
+			Mods.loadTopMod();
 			if (PlayState.isStoryMode)
 				FlxG.switchState(StoryMenuState.new);
 			else

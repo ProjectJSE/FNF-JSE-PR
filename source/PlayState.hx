@@ -4370,7 +4370,7 @@ class PlayState extends MusicBeatState
 			{
 				restartSong(true);
 			}
-			var ret:Dynamic = callOnScripts('onGameOver', null, true);
+			var ret:Dynamic = callOnLuas('onGameOver', null, true);
 			if(ret != LuaUtils.Function_Stop) {
 				FlxG.animationTimeScale = 1;
 				boyfriend.stunned = true;
@@ -5134,7 +5134,7 @@ class PlayState extends MusicBeatState
 					if (storyPlaylist.length <= 0)
 					{
 						disableCoolHealthTween = false;
-						WeekData.loadTheFirstEnabledMod();
+						Mods.loadTopMod();
 						FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.daMenuMusic));
 						#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
@@ -5189,7 +5189,7 @@ class PlayState extends MusicBeatState
 				{
 					disableCoolHealthTween = false;
 					trace('WENT BACK TO FREEPLAY??');
-					WeekData.loadTheFirstEnabledMod();
+					Mods.loadTopMod();
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 					if (!ffmpegMode) FlxG.switchState(new FreeplayState());
 					else 
