@@ -2,6 +2,8 @@ package backend;
 
 import haxe.Json;
 
+using StringTools;
+
 typedef ModsList = {
 	enabled:Array<String>,
 	disabled:Array<String>,

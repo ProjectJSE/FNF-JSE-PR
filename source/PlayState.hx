@@ -835,7 +835,7 @@ class PlayState extends MusicBeatState
 				{
 					if(file.endsWith('.lua') && !filesPushed.contains(file))
 					{
-						new FunkinLua(folder + file);
+						luaArray.push(new FunkinLua(folder + file));
 						if (Std.string(file) == 'extra keys hscript.lua')
 						{
 							trace ('theres a lua extra keys file');
@@ -854,14 +854,18 @@ class PlayState extends MusicBeatState
 		if(luaFiles.length > 0){
 			for(luaFile in luaFiles)
 			{
-				achievementArray.push(new FunkinLua(luaFile));
+				var lua = new FunkinLua(luaFile);
+				luaArray.push(lua);
+				achievementArray.push(lua);
 			}
 		}
 
 		var achievementMetas = Achievements.getModAchievementMetas().copy();
 		for (i in achievementMetas) {
 			if(i.lua_code != null) {
-				achievementArray.push(new FunkinLua(i.lua_code));
+				var lua = new FunkinLua(null, i.lua_code);
+				luaArray.push(lua);
+				achievementArray.push(lua);
 			}
 			if(i.week_nomiss != null) {
 				achievementWeeks.push(i.week_nomiss);
@@ -1771,7 +1775,7 @@ class PlayState extends MusicBeatState
 			{
 				#if LUA_ALLOWED
 				if(file.toLowerCase().endsWith('.lua'))
-					new FunkinLua(folder + file);
+					luaArray.push(new FunkinLua(folder + file));
 				#end
 			}
 		#end
@@ -2020,7 +2024,7 @@ class PlayState extends MusicBeatState
 					break;
 				}
 			}
-			if(doPush) new FunkinLua(luaFile);
+			if(doPush) luaArray.push(new FunkinLua(folder + file));
 		}
 		#end
 	}
@@ -7042,7 +7046,7 @@ class PlayState extends MusicBeatState
 			for (script in luaArray)
 				if(script.scriptName == luaToLoad) return false;
 
-			new FunkinLua(luaToLoad);
+			luaArray.push(new FunkinLua(folder + file));
 			return true;
 		}
 		return false;

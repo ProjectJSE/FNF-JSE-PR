@@ -60,7 +60,7 @@ class MainMenuState extends MusicBeatState
 		Paths.clearUnusedMemory();
 
 		#if MODS_ALLOWED
-		Paths.pushGlobalMods();
+		Mods.getGlobalMods();
 		#end
 		WeekData.loadTheFirstEnabledMod();
 

@@ -69,65 +69,68 @@ class FunkinLua {
 		set('screenWidth', FlxG.width);
 		set('screenHeight', FlxG.height);
 
-		// PlayState variables
-		set('curSection', 0);
-		set('curBeat', 0);
-		set('curStep', 0);
-		set('curDecBeat', 0);
-		set('curDecStep', 0);
+		// PlayState-only variables
+		if(game != null)
+		{
+			set('curSection', 0);
+			set('curBeat', 0);
+			set('curStep', 0);
+			set('curDecBeat', 0);
+			set('curDecStep', 0);
 
-		set('score', 0);
-		set('misses', 0);
-		set('hits', 0);
-		set('combo', 0);
+			set('score', 0);
+			set('misses', 0);
+			set('hits', 0);
+			set('combo', 0);
 
-		set('rating', 0);
-		set('ratingName', '');
-		set('ratingFC', '');
-		set('version', MainMenuState.psychEngineVersion.trim());
-		set('jsVersion', MainMenuState.psychEngineJSVersion.trim());
+			set('rating', 0);
+			set('ratingName', '');
+			set('ratingFC', '');
+			set('version', MainMenuState.psychEngineVersion.trim());
+			set('jsVersion', MainMenuState.psychEngineJSVersion.trim());
 
-		set('inGameOver', false);
-		set('mustHitSection', false);
-		set('altAnim', false);
-		set('gfSection', false);
+			set('inGameOver', false);
+			set('mustHitSection', false);
+			set('altAnim', false);
+			set('gfSection', false);
 
-		set('shouldKillNotes', game.shouldKillNotes);
+			set('shouldKillNotes', game.shouldKillNotes);
 
-		set('npsSpeedMult', game.npsSpeedMult);
-		set('polyphony', game.polyphony);
+			set('npsSpeedMult', game.npsSpeedMult);
+			set('polyphony', game.polyphony);
 
-		// Gameplay settings
-		set('healthGainMult', game.healthGain);
-		set('healthLossMult', game.healthLoss);
-		#if FLX_PITCH
-		set('playbackRate', game.playbackRate);
-		#else
-		set('playbackRate', 1);
-		#end
-		set('instakillOnMiss', game.instakillOnMiss);
-		set('botPlay', game.cpuControlled);
-		set('practice', game.practiceMode);
+			// Gameplay settings
+			set('healthGainMult', game.healthGain);
+			set('healthLossMult', game.healthLoss);
+			#if FLX_PITCH
+			set('playbackRate', game.playbackRate);
+			#else
+			set('playbackRate', 1);
+			#end
+			set('instakillOnMiss', game.instakillOnMiss);
+			set('botPlay', game.cpuControlled);
+			set('practice', game.practiceMode);
 
-		for (i in 0...4) {
-			set('defaultPlayerStrumX' + i, 0);
-			set('defaultPlayerStrumY' + i, 0);
-			set('defaultOpponentStrumX' + i, 0);
-			set('defaultOpponentStrumY' + i, 0);
+			for (i in 0...4) {
+				set('defaultPlayerStrumX' + i, 0);
+				set('defaultPlayerStrumY' + i, 0);
+				set('defaultOpponentStrumX' + i, 0);
+				set('defaultOpponentStrumY' + i, 0);
+			}
+
+			// Default character data
+			set('defaultBoyfriendX', game.BF_X);
+			set('defaultBoyfriendY', game.BF_Y);
+			set('defaultOpponentX', game.DAD_X);
+			set('defaultOpponentY', game.DAD_Y);
+			set('defaultGirlfriendX', game.GF_X);
+			set('defaultGirlfriendY', game.GF_Y);
+
+			// Character shit
+			set('boyfriendName', PlayState.SONG.player1);
+			set('dadName', PlayState.SONG.player2);
+			set('gfName', PlayState.SONG.gfVersion);
 		}
-
-		// Default character data
-		set('defaultBoyfriendX', game.BF_X);
-		set('defaultBoyfriendY', game.BF_Y);
-		set('defaultOpponentX', game.DAD_X);
-		set('defaultOpponentY', game.DAD_Y);
-		set('defaultGirlfriendX', game.GF_X);
-		set('defaultGirlfriendY', game.GF_Y);
-
-		// Character shit
-		set('boyfriendName', PlayState.SONG.player1);
-		set('dadName', PlayState.SONG.player2);
-		set('gfName', PlayState.SONG.gfVersion);
 
 		// Other settings
 		set('downscroll', ClientPrefs.downScroll);
