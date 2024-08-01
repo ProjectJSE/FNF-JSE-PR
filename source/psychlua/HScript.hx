@@ -1,6 +1,6 @@
 package psychlua;
 
-#if hscript
+#if HSCRIPT_ALLOWED
 import hscript.Parser;
 import hscript.Interp;
 import hscript.Expr;
@@ -136,5 +136,10 @@ class HScript
 			#end
 		});
     }
+
+	public function destroy()
+	{
+		#if LUA_ALLOWED parentLua = null; #end
+	}
 }
 #end

@@ -6479,13 +6479,12 @@ class PlayState extends MusicBeatState
 
 	override function destroy() {
 		#if LUA_ALLOWED
-		var luaScript:FunkinLua = null;
-		while (luaArray.length > 0) {
-			luaScript = luaArray.pop();
-			if (luaScript == null) continue;
-			luaScript.call('onDestroy', []);
-			luaScript.stop();
+		for (lua in luaArray)
+		{
+			lua.call('onDestroy', []);
+			lua.stop();
 		}
+		luaArray = null;
 		FunkinLua.customFunctions.clear();
 		#end
 		camFollow.put();
