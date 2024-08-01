@@ -6546,7 +6546,6 @@ class PlayState extends MusicBeatState
 		Paths.splashConfigs.clear();
 		Paths.splashAnimCountMap.clear();
 
-		instance = null;
 		super.destroy();
 	}
 
