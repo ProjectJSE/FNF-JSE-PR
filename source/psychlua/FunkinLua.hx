@@ -19,12 +19,12 @@ class FunkinLua {
 	public var hscript:HScript = null;
 	#end
 
+	public var callbacks:Map<String, Dynamic> = new Map<String, Dynamic>();
 	public static var customFunctions:Map<String, Dynamic> = new Map<String, Dynamic>();
 
 	public function new(scriptName:String) {
 		lua = LuaL.newstate();
 		LuaL.openlibs(lua);
-		Lua.init_callbacks(lua);
 
 		this.scriptName = scriptName.trim();
 		var game:PlayState = PlayState.instance;
@@ -1570,6 +1570,7 @@ class FunkinLua {
 
 	public function addLocalCallback(name:String, myFunction:Dynamic)
 	{
+		callbacks.set(name, myFunction);
 		Lua_helper.add_callback(lua, name, null); //just so that it gets called
 	}
 

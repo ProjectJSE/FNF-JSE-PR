@@ -61,12 +61,12 @@ class MusicBeatState extends FlxUIState
 	override function create() {
 		camBeat = FlxG.camera;
 		var skip:Bool = FlxTransitionableState.skipNextTransOut;
+		
+		if(!_psychCameraInitialized) initPsychCamera();
 		super.create();
-
-		if(!_psychCameraInitialized && Type.getClassName(Type.getClass(FlxG.state)) != 'PlayState') initPsychCamera();
 		
 		if(!skip) {
-			openSubState(new CustomFadeTransition(0.7, true));
+			openSubState(new CustomFadeTransition(0.6, true));
 		}
 		FlxTransitionableState.skipNextTransOut = false;
 

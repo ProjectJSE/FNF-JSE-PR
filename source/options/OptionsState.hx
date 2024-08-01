@@ -28,10 +28,9 @@ using StringTools;
 
 class OptionsState extends MusicBeatState
 {
-
     var kId = 0;
     var keys:Array<FlxKey> = [D, E, B, U, G, SEVEN]; // lol
-var konamiIndex:Int = 0; // Track the progress in the Konami code sequence
+	var konamiIndex:Int = 0; // Track the progress in the Konami code sequence
 	var konamiCode = [];
 	var isEnteringKonamiCode:Bool = false;
 	var options:Array<String> = ['Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Optimization', 'Game Rendering', 'Visuals and UI', 'Gameplay', 'Misc'];
@@ -40,9 +39,7 @@ var konamiIndex:Int = 0; // Track the progress in the Konami code sequence
 	public static var menuBG:FlxSprite;
 	public static var onPlayState:Bool = false;
 	public var enteringDebugMenu:Bool = false;
-	private var mainCamera:FlxCamera;
 	private var subCamera:FlxCamera;
-	private var otherCamera:FlxCamera;
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
@@ -75,14 +72,10 @@ var konamiIndex:Int = 0; // Track the progress in the Konami code sequence
 	override function create() {
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
-		mainCamera = initPsychCamera();
 		subCamera = new FlxCamera();
-		otherCamera = new FlxCamera();
 		subCamera.bgColor.alpha = 0;
-		otherCamera.bgColor.alpha = 0;
 
 		FlxG.cameras.add(subCamera, false);
-		FlxG.cameras.add(otherCamera, false);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollowPos = new FlxObject(0, 0, 1, 1);
@@ -173,13 +166,13 @@ var konamiIndex:Int = 0; // Track the progress in the Konami code sequence
             if (FlxG.keys.anyJustPressed([k])) {
                 #if desktop kId++; #end
                 if (kId >= keys.length) {
-			enteringDebugMenu = true;
-			kId = 0;
+					enteringDebugMenu = true;
+					kId = 0;
                     FlxTween.tween(FlxG.camera, {alpha: 0}, 1.5, {startDelay: 1, ease: FlxEase.cubeOut});
                     if (FlxG.sound.music != null)
                         FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.cubeOut});
                     FlxTween.tween(FlxG.camera, {zoom: 0.1, angle: -15}, 2.5, {ease: FlxEase.cubeIn, onComplete: function(t) {
-			FlxG.camera.angle = 0;
+						FlxG.camera.angle = 0;
                         openSubState(new options.SuperSecretDebugMenu());
                     }});
                 }
