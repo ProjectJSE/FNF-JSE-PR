@@ -863,7 +863,7 @@ class PlayState extends MusicBeatState
 		var achievementMetas = Achievements.getModAchievementMetas().copy();
 		for (i in achievementMetas) {
 			if(i.lua_code != null) {
-				var lua = new FunkinLua(null, i.lua_code);
+				var lua = new FunkinLua(i.lua_code);
 				luaArray.push(lua);
 				achievementArray.push(lua);
 			}
