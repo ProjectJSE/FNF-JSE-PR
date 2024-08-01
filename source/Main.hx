@@ -126,9 +126,12 @@ class Main extends Sprite {
 			game.height = Math.ceil(stageHeight / game.zoom);
 		};
 
+		#if LUA_ALLOWED
+		Mods.pushGlobalMods();
+		#end
+
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
 		ClientPrefs.loadDefaultKeys();
-
 		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 
 		fpsVar = new FPSCounter(3, 3, 0x00FFFFFF);

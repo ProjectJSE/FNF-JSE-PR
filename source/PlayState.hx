@@ -574,7 +574,7 @@ class PlayState extends MusicBeatState
 		//Ratings
 		if (!ClientPrefs.noMarvJudge)
 		{
-		ratingsData.push(new Rating('perfect'));
+			ratingsData.push(new Rating('perfect'));
 		}
 
 		var rating:Rating = new Rating('sick');
@@ -702,7 +702,7 @@ class PlayState extends MusicBeatState
 		GameOverSubstate.resetVariables();
 		songName = Paths.formatToSongPath(SONG.song);
 		curStage = (!ClientPrefs.charsAndBG ? "" : SONG.stage);
-		//trace('stage is: ' + curStage);
+
 		if(SONG.stage == null || SONG.stage.length < 1) {
 			switch (songName)
 			{
@@ -815,37 +815,20 @@ class PlayState extends MusicBeatState
 
 		// "GLOBAL" SCRIPTS
 		#if LUA_ALLOWED
-		var filesPushed:Array<String> = [];
-		var foldersToCheck:Array<String> = [Paths.getPreloadPath('scripts/')];
-
-		#if MODS_ALLOWED
-		foldersToCheck.insert(0, Paths.mods('scripts/'));
-		if(Mods.currentModDirectory != null && Mods.currentModDirectory.length > 0)
-			foldersToCheck.insert(0, Paths.mods(Mods.currentModDirectory + '/scripts/'));
-
-		for(mod in Mods.getGlobalMods())
-			foldersToCheck.insert(0, Paths.mods(mod + '/scripts/'));
-		#end
-
-		for (folder in foldersToCheck)
-		{
-			if(FileSystem.exists(folder))
+		for (folder in Mods.directoriesWithFile(Paths.getPreloadPath(), 'scripts/'))
+			for (file in FileSystem.readDirectory(folder))
 			{
-				for (file in FileSystem.readDirectory(folder))
-				{
-					if(file.endsWith('.lua') && !filesPushed.contains(file))
+				#if LUA_ALLOWED
+				if(file.toLowerCase().endsWith('.lua')) {
+					new FunkinLua(folder + file);
+					if (Std.string(file) == 'extra keys hscript.lua')
 					{
-						luaArray.push(new FunkinLua(folder + file));
-						if (Std.string(file) == 'extra keys hscript.lua')
-						{
-							trace ('theres a lua extra keys file');
-							usingEkFile = true;
-						}
-						filesPushed.push(file);
+						trace ('theres a lua extra keys file');
+						usingEkFile = true;
 					}
 				}
+				#end
 			}
-		}
 		#end
 
 		//CUSTOM ACHIVEMENTS
@@ -854,18 +837,14 @@ class PlayState extends MusicBeatState
 		if(luaFiles.length > 0){
 			for(luaFile in luaFiles)
 			{
-				var lua = new FunkinLua(luaFile);
-				luaArray.push(lua);
-				achievementArray.push(lua);
+				achievementArray.push(new FunkinLua(luaFile));
 			}
 		}
 
 		var achievementMetas = Achievements.getModAchievementMetas().copy();
 		for (i in achievementMetas) {
 			if(i.lua_code != null) {
-				var lua = new FunkinLua(i.lua_code);
-				luaArray.push(lua);
-				achievementArray.push(lua);
+				achievementArray.push(new FunkinLua(i.lua_code));
 			}
 			if(i.week_nomiss != null) {
 				achievementWeeks.push(i.week_nomiss);
@@ -994,8 +973,6 @@ class PlayState extends MusicBeatState
 				gf.visible = false;
 		}
 		stagesFunc(function(stage:BaseStage) stage.createPost());
-
-		callOnLuas('onCreate');
 
 		var file:String = Paths.json(songName + '/dialogue'); //Checks for json/Psych Engine dialogue
 		if (OpenFlAssets.exists(file)) {
@@ -1775,7 +1752,7 @@ class PlayState extends MusicBeatState
 			{
 				#if LUA_ALLOWED
 				if(file.toLowerCase().endsWith('.lua'))
-					luaArray.push(new FunkinLua(folder + file));
+					new FunkinLua(folder + file);
 				#end
 			}
 		#end
@@ -2024,7 +2001,7 @@ class PlayState extends MusicBeatState
 					break;
 				}
 			}
-			if(doPush) luaArray.push(new FunkinLua(luaFile));
+			if(doPush) new FunkinLua(luaFile);
 		}
 		#end
 	}
@@ -6546,6 +6523,7 @@ class PlayState extends MusicBeatState
 		Paths.splashConfigs.clear();
 		Paths.splashAnimCountMap.clear();
 
+		instance = null;
 		super.destroy();
 	}
 
@@ -7045,7 +7023,7 @@ class PlayState extends MusicBeatState
 			for (script in luaArray)
 				if(script.scriptName == luaToLoad) return false;
 
-			luaArray.push(new FunkinLua(luaToLoad));
+			new FunkinLua(luaToLoad);
 			return true;
 		}
 		return false;
