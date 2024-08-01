@@ -227,7 +227,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.displayFormat = '%vX';
 		addOption(option);
 
-		var ratingQuoteList:Array<String> = Paths.mergeAllTextsNamed('ratingQuotes/list.txt', 'data', false);
+		var ratingQuoteList:Array<String> = Mods.mergeAllTextsNamed('ratingQuotes/list.txt', 'data', false);
 		if (ratingQuoteList.length > 0)
 		{
 			if (!ratingQuoteList.contains(ClientPrefs.rateNameStuff))
@@ -380,7 +380,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			['Golden Apple', 'Dave and Bambi', 'Old Psych', 'New Psych', 'VS Steve', 'Plank Engine', 'Strident Crisis', 'SB Engine', 'None']);
 		addOption(option);
 
-		var noteSplashList:Array<String> = Paths.mergeAllTextsNamed('images/noteSplashes/list.txt');
+		var noteSplashList:Array<String> = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt');
 		if (noteSplashList.length > 0)
 		{
 			if (!noteSplashList.contains(ClientPrefs.splashType))

@@ -110,7 +110,7 @@ class WeekData {
 				{
 					var path = haxe.io.Path.join([Paths.mods(), splitName[0]]);
 					//trace('trying to push: ' + splitName[0]);
-					if (sys.FileSystem.isDirectory(path) && !Paths.ignoreModFolders.contains(splitName[0]) && !disabledMods.contains(splitName[0]) && !directories.contains(path + '/'))
+					if (sys.FileSystem.isDirectory(path) && !Mods.ignoreModFolders.contains(splitName[0]) && !disabledMods.contains(splitName[0]) && !directories.contains(path + '/'))
 					{
 						directories.push(path + '/');
 						//trace('pushed Directory: ' + splitName[0]);
@@ -119,7 +119,7 @@ class WeekData {
 			}
 		}
 
-		var modsDirectories:Array<String> = Paths.getModDirectories();
+		var modsDirectories:Array<String> = Mods.getModDirectories();
 		for (folder in modsDirectories)
 		{
 			var pathThing:String = haxe.io.Path.join([Paths.mods(), folder]) + '/';
@@ -239,15 +239,15 @@ class WeekData {
 	}
 
 	public static function setDirectoryFromWeek(?data:WeekData = null) {
-		Paths.currentModDirectory = '';
+		Mods.currentModDirectory = '';
 		if(data != null && data.folder != null && data.folder.length > 0) {
-			Paths.currentModDirectory = data.folder;
+			Mods.currentModDirectory = data.folder;
 		}
 	}
 
 	public static function loadTheFirstEnabledMod()
 	{
-		Paths.currentModDirectory = '';
+		Mods.currentModDirectory = '';
 		
 		#if (MODS_ALLOWED)
 		if (FileSystem.exists("modsList.txt"))
@@ -260,7 +260,7 @@ class WeekData {
 				if (dat[1] == "1" && !foundTheTop)
 				{
 					foundTheTop = true;
-					Paths.currentModDirectory = dat[0];
+					Mods.currentModDirectory = dat[0];
 				}
 			}
 		}

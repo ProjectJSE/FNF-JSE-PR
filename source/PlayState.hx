@@ -804,7 +804,6 @@ class PlayState extends MusicBeatState
 			introSoundsSuffix = '-pixel';
 		}
 		add(gfGroup); //Needed for blammed lights
-
 		add(dadGroup);
 		add(boyfriendGroup);
 
@@ -816,18 +815,37 @@ class PlayState extends MusicBeatState
 
 		// "GLOBAL" SCRIPTS
 		#if LUA_ALLOWED
-		for (folder in Paths.directoriesWithFile(Paths.getPreloadPath(), 'scripts/'))
-			for (file in FileSystem.readDirectory(folder)) {
-				if(file.toLowerCase().endsWith('.lua'))
+		var filesPushed:Array<String> = [];
+		var foldersToCheck:Array<String> = [Paths.getPreloadPath('scripts/')];
+
+		#if MODS_ALLOWED
+		foldersToCheck.insert(0, Paths.mods('scripts/'));
+		if(Mods.currentModDirectory != null && Mods.currentModDirectory.length > 0)
+			foldersToCheck.insert(0, Paths.mods(Mods.currentModDirectory + '/scripts/'));
+
+		for(mod in Paths.getGlobalMods())
+			foldersToCheck.insert(0, Paths.mods(mod + '/scripts/'));
+		#end
+
+		for (folder in foldersToCheck)
+		{
+			if(FileSystem.exists(folder))
+			{
+				for (file in FileSystem.readDirectory(folder))
 				{
-					new FunkinLua(folder + file);
-					if (Std.string(file) == 'extra keys hscript.lua')
+					if(file.endsWith('.lua') && !filesPushed.contains(file))
 					{
-						trace ('theres a lua extra keys file');
-						usingEkFile = true;
+						new FunkinLua(folder + file);
+						if (Std.string(file) == 'extra keys hscript.lua')
+						{
+							trace ('theres a lua extra keys file');
+							usingEkFile = true;
+						}
+						filesPushed.push(file);
 					}
 				}
 			}
+		}
 		#end
 
 		//CUSTOM ACHIVEMENTS
@@ -893,7 +911,7 @@ class PlayState extends MusicBeatState
 			startCharacterLua(gf.curCharacter);
 		}
 
-		var ratingQuoteStuff:Array<Dynamic> = Paths.mergeAllTextsNamed('ratingQuotes/${ClientPrefs.rateNameStuff}.txt', 'data');
+		var ratingQuoteStuff:Array<Dynamic> = Mods.mergeAllTextsNamed('ratingQuotes/${ClientPrefs.rateNameStuff}.txt', 'data');
 		if (ratingQuoteStuff == null || ratingQuoteStuff.indexOf(null) != -1){
 			trace('Failed to find quotes for ratings!');
 			// this should help fix a crash
@@ -1748,7 +1766,7 @@ class PlayState extends MusicBeatState
 
 		// SONG SPECIFIC SCRIPTS
 		#if LUA_ALLOWED
-		for (folder in Paths.directoriesWithFile(Paths.getPreloadPath(), 'data/$songName/'))
+		for (folder in Mods.directoriesWithFile(Paths.getPreloadPath(), 'data/$songName/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
 				#if LUA_ALLOWED
@@ -1831,8 +1849,8 @@ class PlayState extends MusicBeatState
 		}
 
 		var foldersToCheck:Array<String> = [Paths.mods('shaders/')];
-		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
-			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
+		if(Mods.currentModDirectory != null && Mods.currentModDirectory.length > 0)
+			foldersToCheck.insert(0, Paths.mods(Mods.currentModDirectory + '/shaders/'));
 
 		for(mod in Paths.getGlobalMods())
 			foldersToCheck.insert(0, Paths.mods(mod + '/shaders/'));
@@ -6485,12 +6503,13 @@ class PlayState extends MusicBeatState
 
 	override function destroy() {
 		#if LUA_ALLOWED
-		for (lua in luaArray)
-		{
-			lua.call('onDestroy', []);
-			lua.stop();
+		var luaScript:FunkinLua = null;
+		while (luaArray.length > 0) {
+			luaScript = luaArray.pop();
+			if (luaScript == null) continue;
+			luaScript.call('onDestroy', []);
+			luaScript.stop();
 		}
-		luaArray = [];
 		FunkinLua.customFunctions.clear();
 		#end
 		camFollow.put();
