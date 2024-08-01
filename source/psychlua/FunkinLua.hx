@@ -1401,10 +1401,10 @@ class FunkinLua {
 		{
 			if(tag != null)
 			{
-				game.modchartTweens.set(tag, FlxTween.tween(target, tweenValue, duration, {ease: LuaUtils.getTweenEaseByString(ease),
+				PlayState.instance.modchartTweens.set(tag, FlxTween.tween(target, tweenValue, duration, {ease: LuaUtils.getTweenEaseByString(ease),
 					onComplete: function(twn:FlxTween) {
-						game.modchartTweens.remove(tag);
-						game.callOnLuas('onTweenCompleted', [tag, vars]);
+						PlayState.instance.modchartTweens.remove(tag);
+						PlayState.instance.callOnLuas('onTweenCompleted', [tag, vars]);
 					}
 				}));
 			}
