@@ -814,7 +814,7 @@ class PlayState extends MusicBeatState
 		for (folder in Mods.directoriesWithFile(Paths.getPreloadPath(), 'scripts/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
-				trace(folder + " / " + file)
+				trace(folder + " / " + file);
 				#if LUA_ALLOWED
 				if(file.toLowerCase().endsWith('.lua')) {
 					new FunkinLua(folder + file);
