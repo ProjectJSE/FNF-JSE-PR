@@ -28,6 +28,7 @@ class MainMenuState extends MusicBeatState
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
+	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 	
 	var optionShit:Array<String> = [
@@ -69,6 +70,7 @@ class MainMenuState extends MusicBeatState
 		#end
 		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 
+		camGame = initPsychCamera();
 		camAchievement = new FlxCamera();
 		camAchievement.bgColor.alpha = 0;
 		FlxG.cameras.add(camAchievement, false);
